@@ -1,0 +1,114 @@
+#adding two Gomory fractional cuts
+x = np.arange(0,6.8,0.001)
+_x = np.arange(0,6,0.001)
+__x = np.arange(1,7,0.001)
+
+# The lines to plot
+y1=(x-4)/2
+_y1=(_x-4)/2
+
+y2=(11-x)/3
+_y2=(11-_x)/3
+
+y4=x-5
+_y4=_x-5
+__y4=__x-5
+
+
+m = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,4,4,4,5,5,6]
+n = [0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,0,1,2,1,2,1]
+scatter(m,n, s=20 ,marker='o', c='red')
+scatter(6,1.66667, s=20 ,marker='o', c='blue')
+
+# The upper edge of polygon (min of lines y1 & y2)
+y3 = np.maximum(_y1, 0)
+
+# Set y-limit, making neg y-values not show in plot
+plt.ylim(-2, 7)
+plt.xlim(-1, 7.8)
+
+# Plotting of lines
+plt.plot(x, y1,color='green')
+plt.plot(x, y2,color='green')
+
+#ploting of cuts
+plt.vlines(6, ymin=-2, ymax=6, color='red',linestyle='dashed')
+plt.plot(__x, __y4,color='red',linestyle='dashed')
+
+#Plotting vertical lines
+plt.vlines(-1, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+plt.vlines(1, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+plt.vlines(2, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+plt.vlines(3, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+plt.vlines(4, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+plt.vlines(5, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+plt.vlines(6, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+plt.vlines(7, ymin=-2, ymax=6, color='grey',linestyles='dashed',alpha='0.2')
+
+#Plotting horizantol lines
+plt.hlines(-2, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+plt.hlines(-1, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+plt.hlines(1, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+plt.hlines(2, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+plt.hlines(3, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+plt.hlines(4, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+plt.hlines(5, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+plt.hlines(6, xmin=-1, xmax=7.5, color='grey',linestyles='dashed',alpha='0.2')
+
+#number on the axis
+plt.text(.95, -.5, '1')
+plt.text(1.95, -.5, '2')
+plt.text(2.95, -.5, '3')
+plt.text(3.95, -.5, '4')
+plt.text(4.95, -.5, '5')
+plt.text(6.95, -.5, '7')
+
+plt.text(-.25,.95, '1')
+plt.text(-.25,1.95, '2')
+plt.text(-.25,2.95, '3')
+plt.text(-.25,3.95, '4')
+plt.text(-.25,4.95, '5')
+
+#fig = plt.figure()
+ax = fig.add_subplot(111)
+left=0
+right=7.5
+low=0
+high=6
+# Filling between line y3 and line y4
+plt.fill_between(_x, _y2, y3, color='grey', alpha='0.2')
+arrow( left, 0, right -left, 0, length_includes_head = True, head_width = 0.15 )
+arrow( left, 0, left -right, 0, length_includes_head = True, head_width = 0.15 )
+arrow( 0, low, 0, high-low, length_includes_head = True, head_width = 0.15 ) 
+arrow( 0, low, 0, low-high, length_includes_head = True, head_width = 0.15 ) 
+
+# Locations to plot text
+l1 = np.array((6.2, 5))
+l2 = np.array((3.6, -1.9))
+
+# Rotate angle
+angle = 0
+trans_angle = plt.gca().transData.transform_angles(np.array((46,)),
+                                                   l2.reshape((1, 2)))[0]
+
+# Plot text
+th1 = plt.text(l1[0], l1[1], 'x\u2081 \u2264 6', fontsize=10,rotation=angle, rotation_mode='anchor')
+th2 = plt.text(l2[0], l2[1], 'x\u2081 - x\u2082 \u2264 5', fontsize=10,
+               rotation=trans_angle, rotation_mode='anchor')
+th3 = plt.text(6.1, 2, '(6,1.66)', fontsize=9,
+               rotation=0, rotation_mode='anchor')
+
+th4 = plt.text(7.4, -.5, 'x\u2081', fontsize=10,
+               rotation=0, rotation_mode='anchor')
+th5 = plt.text(-.5, 5.5, 'x\u2082', fontsize=10,
+               rotation=0, rotation_mode='anchor')
+
+
+
+#removing number on axis
+plt.axis('off')
+
+plt.grid(linestyle='dotted')
+fig=plt.gcf()
+fig.savefig('LPGF.png', dpi = 1200)
+plt.show()
